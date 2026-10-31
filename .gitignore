@@ -1,0 +1,27 @@
+# Binaries & build output
+bin/
+extension/.output/
+extension/.wxt/
+extension/dist/
+
+# Dependencies
+extension/node_modules/
+daemon/vendor/
+
+# Go
+*.test
+*.out
+
+# Daemon runtime logs
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Understand-Anything scratch (keep graph, ignore temp)
+.ua/tmp/
+.ua/intermediate/
+.ua/.trash-*/

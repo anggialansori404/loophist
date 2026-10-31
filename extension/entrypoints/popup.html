@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LoopHist</title>
+<style>
+:root{
+  --m-bg:#F0F4F9; --m-surface:#FFFFFF; --m-primary:#0B57D0; --m-on-primary:#fff;
+  --m-container:#E3EBF8; --m-container-high:#E9EEF6; --m-outline:#C4C7C5;
+  --m-ink:#1F1F1F; --m-ink2:#444746; --m-ok:#146C2E; --m-ok-bg:#D3EADD;
+  --m-bad:#B3261E; --m-bad-bg:#F9DEDC;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; width:360px; background:var(--m-bg); color:var(--m-ink);
+  font-family:"Google Sans","Roboto",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:13px; line-height:1.45;
+}
+.wrap{padding:12px 12px 8px; display:flex; flex-direction:column; gap:10px}
+
+/* entrance */
+.rise{animation:rise .28s cubic-bezier(.2,0,.2,1) both}
+.rise:nth-child(2){animation-delay:.05s}.rise:nth-child(3){animation-delay:.1s}
+.rise:nth-child(4){animation-delay:.15s}.rise:nth-child(5){animation-delay:.2s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* header */
+.top{display:flex; align-items:center; gap:10px; padding:4px 2px 0}
+.mark{
+  width:38px;height:38px;border-radius:13px;flex:none;display:flex;align-items:center;justify-content:center;
+  background:var(--m-primary); box-shadow:0 2px 8px rgba(11,87,208,.35);
+}
+.mark svg{width:21px;height:21px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.top h1{font-size:15px;margin:0;font-weight:700;letter-spacing:.01em}
+.top p{font-size:11.5px;color:var(--m-ink2);margin:1px 0 0}
+.badge{
+  margin-left:auto;flex:none;display:flex;align-items:center;gap:6px;
+  background:var(--m-surface);border:1px solid var(--m-outline);border-radius:999px;
+  padding:5px 11px;font-size:11.5px;font-weight:700;text-transform:capitalize;
+}
+.badge i{width:8px;height:8px;border-radius:50%;flex:none}
+i.brave{background:#FB542B}i.edge{background:#3276BC}i.chrome{background:#F9AB00}i.firefox{background:#A259FF}
+
+/* cards */
+.card{background:var(--m-surface);border-radius:24px;padding:14px;border:none;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.row{display:flex;align-items:center;gap:11px}
+.st-ic{width:42px;height:42px;border-radius:16px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--m-ok-bg)}
+.st-ic svg{width:22px;height:22px;stroke:var(--m-ok);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.hero.off .st-ic{background:var(--m-bad-bg)}
+.hero.off .st-ic svg{stroke:var(--m-bad)}
+.st-ic .spin{animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.hero.on .st-ic{animation:pop .3s ease}
+@keyframes pop{0%{transform:scale(.85)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.stitle{font-size:14.5px;font-weight:700;margin:0}
+.ssub{font-size:11.5px;color:var(--m-ink2);margin:1px 0 0;font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{background:var(--m-container-high);border-radius:8px;padding:4px 9px;font-size:11px;color:var(--m-ink2);font-variant-numeric:tabular-nums}
+.chip b{color:var(--m-ink)}
+.dead{
+  display:none;margin-top:10px;background:var(--m-bad-bg);color:var(--m-bad);
+  border-radius:14px;padding:9px 11px;font-size:12px;
+}
+.hero.off .dead{display:block}
+.dead ol{margin:5px 0 0;padding-left:17px}
+.btns{display:flex;gap:8px;margin-top:11px}
+.btn{
+  flex:1;border-radius:20px;padding:9px 0;font-size:13px;font-weight:700;cursor:pointer;
+  border:1px solid transparent;font-family:inherit;transition:box-shadow .15s,transform .08s,background .15s;
+}
+.btn:active{transform:scale(.97)}
+.btn.fill{background:var(--m-primary);color:var(--m-on-primary)}
+.btn.fill:hover{box-shadow:0 3px 10px rgba(11,87,208,.4)}
+.btn.out{background:var(--m-surface);border-color:var(--m-outline);color:var(--m-primary)}
+.btn.out:hover{background:var(--m-container)}
+.btn.text{background:none;border:none;color:var(--m-primary);padding:6px 10px;flex:none;font-size:12.5px;border-radius:999px}
+.btn.text:hover{background:var(--m-container)}
+
+/* info */
+.info{display:flex;align-items:center;gap:8px}
+.info .tx{min-width:0;flex:1}
+.info .lb{font-size:11px;color:var(--m-ink2);margin:0}
+.info .vl{font-size:12.5px;margin:1px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+
+/* activity */
+.sec{display:flex;align-items:baseline;margin:0 0 8px}
+.sec h2{font-size:12px;margin:0;color:var(--m-ink2);font-weight:700}
+.sec span{font-size:11px;color:var(--m-ink2);margin-left:auto;font-variant-numeric:tabular-nums}
+.alist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.aitem{display:flex;gap:10px;align-items:center;min-width:0;padding:6px;border-radius:14px}
+.aitem:hover{background:var(--m-bg)}
+.av{width:34px;height:34px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.aitem .t{min-width:0;flex:1}
+.aitem .ti{margin:0;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aitem .ur{margin:0;font-size:11px;color:var(--m-ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aitem time{font-size:11px;color:var(--m-ink2);flex:none;font-variant-numeric:tabular-nums}
+.skel{height:46px;border-radius:14px;background:linear-gradient(90deg,var(--m-container-high) 25%,#F7FAFE 50%,var(--m-container-high) 75%);background-size:200% 100%;animation:shim 1.2s infinite}
+@keyframes shim{to{background-position:-200% 0}}
+.emptybox{text-align:center;padding:14px 8px 10px;color:var(--m-ink2)}
+.emptybox .e-ic{width:44px;height:44px;border-radius:16px;background:var(--m-container);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px}
+.emptybox .e-ic svg{width:22px;height:22px;stroke:var(--m-primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.emptybox p{margin:2px 0 0;font-size:12px}
+
+footer{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--m-ink2);padding:2px 4px 4px}
+footer .lk{display:inline-flex;align-items:center;gap:4px;font-weight:700;color:var(--m-ok)}
+footer span:last-child{margin-left:auto;font-variant-numeric:tabular-nums}
+#toast{
+  position:fixed;left:50%;bottom:12px;transform:translateX(-50%) translateY(8px);
+  background:var(--m-ink);color:#fff;font-size:12px;font-weight:600;
+  padding:8px 14px;border-radius:999px;opacity:0;pointer-events:none;
+  transition:opacity .2s,transform .2s;white-space:nowrap;max-width:92%;
+}
+#toast.show{opacity:1;transform:translateX(-50%)}
+@media (prefers-reduced-motion:reduce){.rise,.skel,.st-ic .spin,.hero.on .st-ic{animation:none}#toast,.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top rise">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.3"/><path d="M21 3v6h-6"/></svg>
+    </div>
+    <div><h1>LoopHist</h1><p>Riwayat menyatu otomatis</p></div>
+    <div class="badge"><i id="bcolor"></i><span id="blabel">…</span></div>
+  </header>
+
+  <section class="card hero off rise" id="hero" aria-live="polite">
+    <div class="row">
+      <div class="st-ic" id="stic" aria-hidden="true">
+        <svg viewBox="0 0 24 24" id="stsvg"><path d="M21 12a9 9 0 1 1-2.6-6.3"/><path d="M21 3v6h-6"/></svg>
+      </div>
+      <div><p class="stitle" id="stitle">Memeriksa…</p><p class="ssub" id="ssub">Menghubungi daemon lokal</p></div>
+    </div>
+    <div class="chips"><span class="chip">127.0.0.1:8765</span><span class="chip" id="latency">Latensi —</span><span class="chip">Cek tiap <b>3 dtk</b></span></div>
+    <div class="dead">Daemon belum jalan. Nyalakan daemon lokal di port <b>8765</b>, lalu klik <b>Cek ulang</b>.</div>
+    <div class="btns">
+      <button class="btn fill" id="retrybtn">Cek ulang</button>
+      <button class="btn out" id="histbtn">Buka riwayat</button>
+    </div>
+  </section>
+
+  <section class="card rise">
+    <div class="info">
+      <div class="tx"><p class="lb">Koneksi browser ini</p><p class="vl" id="idval">…</p></div>
+      <button class="btn text" id="copybtn">Salin</button>
+    </div>
+  </section>
+
+  <section class="card rise">
+    <div class="sec"><h2>Aktivitas terakhir</h2><span id="actcount"></span></div>
+    <ul class="alist" id="alist"><li class="skel"></li><li class="skel"></li><li class="skel"></li></ul>
+  </section>
+
+  <footer class="rise">
+    <span class="lk">● Data lokal saja</span><span>Tanpa cloud</span><span id="ver">v1.0</span>
+  </footer>
+</div>
+<div id="toast" role="status"></div>
+
+<script src="/popup.js"></script>
+</body>
+</html>
