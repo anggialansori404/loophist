@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <!-- LoopHist: sync-loop + clock hands. Geometry shared 1:1 with scripts/generate-icons.mjs -->
-  <rect width="128" height="128" rx="28" fill="#0B57D0"/>
-  <path d="M97.8 51.7 A36 36 0 1 1 76.3 30.2" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/>
-  <polygon points="96,38 71,40 79,20" fill="#FFFFFF"/>
-  <path d="M64 64 L81.3 74" fill="none" stroke="#D3E1FD" stroke-width="10" stroke-linecap="round"/>
-  <path d="M64 64 L64 38" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
-  <circle cx="64" cy="64" r="8" fill="#FFFFFF"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#0B57D0"/><rect x="0" y="0" width="1024" height="1024" rx="210" fill="#0B57D0"/><g fill="none" stroke-width="104" stroke-linecap="butt"><path d="M 205 508 A 307 307 0 0 1 820 508" stroke="#FFFFFF" transform="rotate(-17 512 512)"/><path d="M 819 516 A 307 307 0 0 1 205 516" stroke="#D3E1FD" transform="rotate(-17 512 512)"/></g><path d="M 763 240 L 871 410 Q 880 427 860 430 L 679 422 Q 660 420 674 403 Z" fill="#FFFFFF"/><path d="M 261 784 L 153 614 Q 144 597 164 594 L 345 602 Q 364 604 350 621 Z" fill="#D3E1FD"/><g fill="none" stroke="#FFFFFF" stroke-width="88" stroke-linecap="round" stroke-linejoin="round"><path d="M512 512 V365"/><path d="M512 512 L636 584"/></g><circle cx="512" cy="512" r="48" fill="#FFFFFF"/></svg>
