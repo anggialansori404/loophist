@@ -98,9 +98,11 @@ function connectWebSocket() {
         }, 5000);
       } else if (data.type === 'SYNC_REQUEST' && data.client_id !== clientId) {
         // Peer minta riwayat: jawab SYNC_RESPONSE langsung via socket, tanpa outbox
+        // Toleran silang-versi: kanonis `request`, fallback `payload` (bundle lama).
+        const req = data.request ?? data.payload;
         try {
-          const maxItems = typeof data.request?.max_items === 'number' ? Math.min(data.request.max_items, 200) : 200;
-          const since = typeof data.request?.since_ms === 'number' ? data.request.since_ms : Date.now() - 7 * 864e5;
+          const maxItems = typeof req?.max_items === 'number' ? Math.min(req.max_items, 200) : 200;
+          const since = typeof req?.since_ms === 'number' ? req.since_ms : Date.now() - 7 * 864e5;
           const results = await chrome.history.search({ text: '', maxResults: maxItems, startTime: since });
           const items = results
             .filter((r) => r.url && (r.url.startsWith('http://') || r.url.startsWith('https://')))
@@ -118,23 +120,32 @@ function connectWebSocket() {
         } catch (err) {
           console.error('[Sync] SYNC_REQUEST handler error:', err);
         }
-      } else if (data.type === 'SYNC_RESPONSE' && data.response?.requestor_id === clientId && Array.isArray(data.response?.items)) {
+      } else if (data.type === 'SYNC_RESPONSE' && (data.response ?? data.payload)?.requestor_id === clientId) {
         // Jawaban atas request kita: injeksi sunyi, tanpa forward/balas
-        for (const item of data.response.items.slice(0, 200)) {
+        // Toleran silang-versi: kanonis `response`, fallback `payload` (bundle lama).
+        const resp = data.response ?? data.payload;
+        if (!Array.isArray(resp?.items)) { console.warn('[Sync] SYNC_RESPONSE tanpa items, dibuang'); return; }
+        let injected = 0, skipped = 0, failed = 0;
+        for (const item of resp.items.slice(0, 200)) {
           const targetUrl = item?.url;
-          if (typeof targetUrl !== 'string' || !targetUrl) continue;
-          if (recentlySyncedUrls.has(targetUrl)) continue;
+          if (typeof targetUrl !== 'string' || !targetUrl) { skipped++; continue; }
+          if (recentlySyncedUrls.has(targetUrl)) { skipped++; continue; }
           // Tandai SEBELUM addUrl agar onVisited lokal tak enqueue balik
           recentlySyncedUrls.add(targetUrl);
           try {
             await chrome.history.addUrl({ url: targetUrl });
-          } catch {
-            // abaikan item gagal, cache tetap expire via timeout
+            injected++;
+          } catch (err) {
+            failed++;
+            console.warn('[Sync] addUrl gagal:', targetUrl, err);
           }
           setTimeout(() => {
             recentlySyncedUrls.delete(targetUrl);
           }, 5000);
         }
+        console.log(`[Sync] Backfill: ${injected} diinjeksi, ${skipped} dilewati, ${failed} gagal dari ${resp.items.length} item`);
+      } else if (data.type === 'SYNC_RESPONSE') {
+        console.warn('[Sync] SYNC_RESPONSE dibuang: requestor_id tak cocok', data.response?.requestor_id ?? data.payload?.requestor_id);
       }
     } catch (err) {
       console.error('[Sync] Error parsing incoming WS message:', err);
