@@ -42,6 +42,11 @@ body{
 }
 .badge i{width:8px;height:8px;border-radius:50%;flex:none}
 i.brave{background:#FB542B}i.edge{background:#3276BC}i.chrome{background:#F9AB00}i.firefox{background:#A259FF}
+.hright{margin-left:auto;flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.hright .badge{margin-left:0}
+.langseg{display:flex;background:var(--m-surface);border:1px solid var(--m-outline);border-radius:999px;padding:2px;gap:2px;flex:none}
+.langseg button{border:0;background:transparent;font:inherit;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;cursor:pointer;color:var(--m-ink2)}
+.langseg button.on{background:var(--m-primary);color:#fff}
 
 /* cards */
 .card{background:var(--m-surface);border-radius:24px;padding:14px;border:none;box-shadow:0 1px 2px rgba(0,0,0,.08)}
@@ -122,8 +127,11 @@ footer span:last-child{margin-left:auto;font-variant-numeric:tabular-nums}
     <div class="mark" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.3"/><path d="M21 3v6h-6"/></svg>
     </div>
-    <div><h1>LoopHist</h1><p>Riwayat menyatu otomatis</p></div>
-    <div class="badge"><i id="bcolor"></i><span id="blabel">…</span></div>
+    <div><h1>LoopHist</h1><p data-i18n="subtitle">Riwayat menyatu otomatis</p></div>
+    <div class="hright">
+      <div class="badge"><i id="bcolor"></i><span id="blabel">…</span></div>
+      <div class="langseg" role="group" data-i18n-aria="lang_label" aria-label="Bahasa / Language"><button id="lang-id" type="button" class="on" aria-pressed="true">ID</button><button id="lang-en" type="button" aria-pressed="false">EN</button></div>
+    </div>
   </header>
 
   <section class="card hero off rise" id="hero" aria-live="polite">
@@ -131,30 +139,30 @@ footer span:last-child{margin-left:auto;font-variant-numeric:tabular-nums}
       <div class="st-ic" id="stic" aria-hidden="true">
         <svg viewBox="0 0 24 24" id="stsvg"><path d="M21 12a9 9 0 1 1-2.6-6.3"/><path d="M21 3v6h-6"/></svg>
       </div>
-      <div><p class="stitle" id="stitle">Memeriksa…</p><p class="ssub" id="ssub">Menghubungi daemon lokal</p></div>
+      <div><p class="stitle" id="stitle" data-i18n="checking">Memeriksa…</p><p class="ssub" id="ssub" data-i18n="checking_sub">Menghubungi daemon lokal</p></div>
     </div>
-    <div class="chips"><span class="chip">127.0.0.1:8765</span><span class="chip" id="latency">Latensi —</span><span class="chip">Cek tiap <b>3 dtk</b></span></div>
-    <div class="dead">Daemon belum jalan. Nyalakan daemon lokal di port <b>8765</b>, lalu klik <b>Cek ulang</b>.</div>
+    <div class="chips"><span class="chip">127.0.0.1:8765</span><span class="chip" id="latency">Latensi —</span><span class="chip" data-i18n-html="poll_every">Cek tiap <b>3 dtk</b></span></div>
+    <div class="dead" data-i18n-html="dead">Daemon belum jalan. Nyalakan daemon lokal di port <b>8765</b>, lalu klik <b>Cek ulang</b>.</div>
     <div class="btns">
-      <button class="btn fill" id="retrybtn">Cek ulang</button>
-      <button class="btn out" id="histbtn">Buka riwayat</button>
+      <button class="btn fill" id="retrybtn" data-i18n="retry">Cek ulang</button>
+      <button class="btn out" id="histbtn" data-i18n="open_history">Buka riwayat</button>
     </div>
   </section>
 
   <section class="card rise">
     <div class="info">
-      <div class="tx"><p class="lb">Koneksi browser ini</p><p class="vl" id="idval">…</p></div>
-      <button class="btn text" id="copybtn">Salin</button>
+      <div class="tx"><p class="lb" data-i18n="conn_label">Koneksi browser ini</p><p class="vl" id="idval">…</p></div>
+      <button class="btn text" id="copybtn" data-i18n="copy">Salin</button>
     </div>
   </section>
 
   <section class="card rise">
-    <div class="sec"><h2>Aktivitas terakhir</h2><span id="actcount"></span></div>
+    <div class="sec"><h2 data-i18n="recent">Aktivitas terakhir</h2><span id="actcount"></span></div>
     <ul class="alist" id="alist"><li class="skel"></li><li class="skel"></li><li class="skel"></li></ul>
   </section>
 
   <footer class="rise">
-    <span class="lk">● Data lokal saja</span><span>Tanpa cloud</span><span id="ver">v1.0</span>
+    <span class="lk" data-i18n="local_only">● Data lokal saja</span><span data-i18n="no_cloud">Tanpa cloud</span><span id="ver">v1.0</span>
   </footer>
 </div>
 <div id="toast" role="status"></div>
