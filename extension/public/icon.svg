@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- LoopHist: sync-loop + clock hands. Geometry shared 1:1 with scripts/generate-icons.mjs -->
+  <rect width="128" height="128" rx="28" fill="#0B57D0"/>
+  <path d="M97.8 51.7 A36 36 0 1 1 76.3 30.2" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/>
+  <polygon points="96,38 71,40 79,20" fill="#FFFFFF"/>
+  <path d="M64 64 L81.3 74" fill="none" stroke="#D3E1FD" stroke-width="10" stroke-linecap="round"/>
+  <path d="M64 64 L64 38" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="64" cy="64" r="8" fill="#FFFFFF"/>
+</svg>
